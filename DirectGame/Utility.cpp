@@ -124,3 +124,67 @@ int d3d::EnterMsgLoop(bool(*ptr_display)(float timeDelta))
 	return msg.wParam;
 }
 
+//初始化点光源，平行光和聚光灯
+D3DLIGHT9 d3d::InitDirectionalLight(D3DXVECTOR3* direction, D3DXCOLOR* color)
+{
+	D3DLIGHT9 light;
+	::ZeroMemory(&light, sizeof(light));	//开辟内存空调
+
+	light.Type = D3DLIGHT_DIRECTIONAL;
+	light.Ambient = *color * 0.6f;			
+	light.Diffuse = *color; //本身的颜色
+	light.Specular = *color * 0.6f; //高光
+	light.Direction = *direction;
+	return light;
+}
+D3DLIGHT9 d3d::InitPointLight(D3DXVECTOR3* position, D3DXCOLOR* color)
+{
+	D3DLIGHT9 light;
+	::ZeroMemory(&light, sizeof(light));	//开辟内存空调
+
+	light.Type = D3DLIGHT_POINT;
+	light.Ambient = *color * 0.6f;		//周围
+	light.Diffuse = *color; //本身的颜色
+	light.Specular = *color * 0.6f; //高光
+	light.Position = *position;
+	light.Range = 1000.0f;
+	light.Falloff = 1.0f;  //衰减系数，只用于聚光灯
+	light.Attenuation0 = 1.0f;//衰减系数
+	light.Attenuation1 = 1.0f;//衰减系数
+	light.Attenuation2 = 0.0f;//衰减系数
+
+	return light;
+}
+D3DLIGHT9 d3d::InitSpotLight(D3DXVECTOR3* position, D3DXVECTOR3* direction, D3DXCOLOR* color)
+{
+	D3DLIGHT9 light;
+	::ZeroMemory(&light, sizeof(light));	//开辟内存空调
+
+	light.Type = D3DLIGHT_SPOT;
+	light.Ambient = *color * 0.0f;		//周围
+	light.Diffuse = *color; //本身的颜色
+	light.Specular = *color * 0.6f; //高光
+	light.Position = *position;
+	light.Direction = *direction;
+	light.Range = 1000.0f;
+	light.Falloff = 1.0f;  //衰减系数
+	light.Attenuation0 = 1.0f;
+	light.Attenuation1 = 0.0f;
+	light.Attenuation2 = 0.0f;
+	light.Theta = 0.4f;   
+	light.Phi = 0.9f;
+	return light;
+}
+
+//初始化材质
+D3DMATERIAL9 d3d::InitMtrl(D3DXCOLOR a, D3DXCOLOR d, D3DXCOLOR s, D3DXCOLOR e, float p)
+{
+	D3DMATERIAL9 mtrl;
+	mtrl.Ambient = a;
+	mtrl.Diffuse = d;
+	mtrl.Specular = s;
+	mtrl.Emissive = e;
+	mtrl.Power = p;
+	return mtrl;
+}
+
