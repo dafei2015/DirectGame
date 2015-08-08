@@ -73,6 +73,7 @@
   <ItemGroup>
     <ClCompile Include="D3dInit.cpp" />
     <ClCompile Include="LightDirectionTest.cpp" />
+    <ClCompile Include="MaterialFusion.cpp" />
     <ClCompile Include="TextureTest.cpp" />
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
